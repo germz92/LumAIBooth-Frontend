@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "AI Photo Booth",
+    "slug": "aiBooth",
+    "scheme": "photos",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#161616"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ios.aibooth"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#161616"
+      },
+      "package": "android.aibooth"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single",
+      "name": "Lumetry AI Photo Booth",
+      "shortName": "AI Booth",
+      "themeColor": "#870000",
+      "backgroundColor": "#161616"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
