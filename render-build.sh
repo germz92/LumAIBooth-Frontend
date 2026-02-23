@@ -32,6 +32,6 @@ npx expo export --platform web
 # Ensure font files are in the dist output
 echo "📋 Copying fonts to dist..."
 mkdir -p dist/fonts
-cp public/fonts/*.ttf dist/fonts/
+cp assets/fonts/*.ttf dist/fonts/
 
 echo "✅ Build complete! Output is in ./dist"
