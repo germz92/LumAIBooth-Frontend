@@ -2,14 +2,12 @@
 # ──────────────────────────────────────────────
 # Render Build Script for AI Photo Booth Frontend
 # ──────────────────────────────────────────────
-# This script runs as the Build Command on Render.
-#
-# If Render environment variables are set, it writes them into .env
-# so react-native-dotenv can inline them at build time.
-# If they are NOT set, it keeps the existing .env file from the repo.
-# ──────────────────────────────────────────────
 
 set -e
+
+# Prevent interactive prompts and increase memory for Metro
+export CI=1
+export NODE_OPTIONS="--max_old_space_size=4096"
 
 # Only overwrite .env if Render env vars are actually configured
 if [ -n "$SERVER_LINK" ]; then
@@ -27,9 +25,6 @@ EOF
 else
   echo "ℹ️  No Render env vars detected — using existing .env from repo"
 fi
-
-echo "📦 Installing dependencies..."
-npm install
 
 echo "🏗️  Building web app..."
 npx expo export --platform web
