@@ -8,11 +8,31 @@ export default function RootLayout() {
   // Load fonts once at the root level
   useEffect(() => {
     async function loadFonts() {
-      await Font.loadAsync({
-        'kanit-light': require('../../assets/fonts/Kanit-Light.ttf'),
-        'kanit-regular': require('../../assets/fonts/Kanit-Regular.ttf'),
-        'kanit-bold': require('../../assets/fonts/Kanit-Bold.ttf'),
-      });
+      if (Platform.OS === 'web') {
+        // On web, inject @font-face rules pointing to the static public/fonts/ directory.
+        // This avoids Metro-hashed font filenames that can 404 on static hosting.
+        const fontFaces = [
+          { family: 'kanit-light', file: '/fonts/Kanit-Light.ttf' },
+          { family: 'kanit-regular', file: '/fonts/Kanit-Regular.ttf' },
+          { family: 'kanit-bold', file: '/fonts/Kanit-Bold.ttf' },
+        ];
+        const css = fontFaces
+          .map(
+            (f) =>
+              `@font-face { font-family: '${f.family}'; src: url('${f.file}') format('truetype'); }`
+          )
+          .join('\n');
+        const style = document.createElement('style');
+        style.textContent = css;
+        document.head.appendChild(style);
+      } else {
+        // On native, load fonts via expo-font as usual
+        await Font.loadAsync({
+          'kanit-light': require('../../assets/fonts/Kanit-Light.ttf'),
+          'kanit-regular': require('../../assets/fonts/Kanit-Regular.ttf'),
+          'kanit-bold': require('../../assets/fonts/Kanit-Bold.ttf'),
+        });
+      }
     }
     loadFonts();
   }, []);
@@ -37,14 +57,15 @@ export default function RootLayout() {
       document.head.appendChild(meta);
     }
 
-    // --- Apple PWA meta tags (critical for iPad "Add to Home Screen") ---
-    const appleMeta = [
-      { name: 'apple-mobile-web-app-capable', content: 'yes' },
+    // --- PWA meta tags ---
+    const pwaMeta = [
+      { name: 'mobile-web-app-capable', content: 'yes' },           // Standard (Chrome/Android)
+      { name: 'apple-mobile-web-app-capable', content: 'yes' },     // iOS Safari
       { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
       { name: 'apple-mobile-web-app-title', content: 'AI Photo Booth' },
     ];
 
-    appleMeta.forEach(({ name, content }) => {
+    pwaMeta.forEach(({ name, content }) => {
       if (!document.querySelector(`meta[name="${name}"]`)) {
         const meta = document.createElement('meta');
         meta.name = name;

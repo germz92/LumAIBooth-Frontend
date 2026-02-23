@@ -8,6 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:web": "expo export --platform web",
+    "build:render": "bash render-build.sh",
     "serve:web": "npx serve dist"
   },
   "dependencies": {
